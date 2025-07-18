@@ -53,9 +53,9 @@ export function renderEventos(eventos) {
                 <p class="mb-2"><strong>Status:</strong> ${evento.status || "N/A"}</p>
                 <p class="text-sm text-gray-600">${evento.descricao || "Sem descrição"}</p>
             </div>
-            <div class="card-actions">
-                <button onclick="editEvento(${evento.id})" class="btn-edit">Editar</button>
-                <button onclick="deleteEvento(${evento.id})" class="btn-delete">Excluir</button>
+            <div class="card-actions flex gap-2 mt-4">
+                <button onclick="editEvento(${evento.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-yellow-400 text-white hover:bg-yellow-500 transition-all duration-200 transform hover:scale-105">Editar</button>
+                <button onclick="deleteEvento(${evento.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-red-500 text-white hover:bg-red-600 transition-all duration-200 transform hover:scale-105">Excluir</button>
             </div>
         </div>
     `

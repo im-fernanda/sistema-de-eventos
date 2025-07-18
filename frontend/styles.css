@@ -15,16 +15,22 @@
     border-width: 4px;
 }
 /* Estilos customizados */
+
 .nav-link {
-    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+    @apply px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-200 shadow-md border-2 border-transparent;
 }
 
 .nav-link:hover {
-    @apply bg-blue-700;
+    @apply bg-blue-500 text-white border-blue-700;
 }
 
 .nav-link.active {
-    @apply bg-blue-800;
+    @apply bg-blue-700 text-white border-blue-900;
+}
+
+
+.btn-create {
+    @apply bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-green-700 transition;
 }
 
 .section {
@@ -90,28 +96,135 @@
 }
 
 .card-actions {
-    @apply mt-4 flex space-x-2;
+    @apply mt-4 flex gap-2 flex-wrap;
+    /* Fallback */
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
-/* Botões */
+/* Botões - Estilos base */
 .btn {
-    @apply px-4 py-2 rounded font-medium transition-colors duration-200;
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-semibold text-center cursor-pointer border-0 transition-all duration-200 shadow-md text-sm leading-5 min-w-20 relative overflow-hidden;
+    /* Fallback para CSS puro */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    min-width: 5rem;
+    position: relative;
+    overflow: hidden;
 }
 
+.btn:hover {
+    @apply transform scale-105;
+    /* Fallback */
+    transform: scale(1.05);
+}
+
+.btn:active {
+    @apply transform scale-95;
+    /* Fallback */
+    transform: scale(0.95);
+}
+
+.btn:focus {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Efeito de ripple nos botões */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Botão Primário */
 .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-blue-600 text-white;
+    /* Fallback */
+    background-color: #2563eb;
+    color: white;
 }
 
+.btn-primary:hover {
+    @apply bg-blue-700;
+    /* Fallback */
+    background-color: #1d4ed8;
+}
+
+.btn-primary:focus {
+    @apply ring-blue-500;
+    /* Fallback */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+}
+
+/* Botão Sucesso */
 .btn-success {
-    @apply bg-green-600 text-white hover:bg-green-700;
+    @apply bg-green-600 text-white;
 }
 
+.btn-success:hover {
+    @apply bg-green-700;
+}
+
+.btn-success:focus {
+    @apply ring-green-500;
+}
+
+/* Botão Perigo */
 .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700;
+    @apply bg-red-600 text-white;
+    /* Fallback */
+    background-color: #dc2626;
+    color: white;
 }
 
+.btn-danger:hover {
+    @apply bg-red-700;
+    /* Fallback */
+    background-color: #b91c1c;
+}
+
+.btn-danger:focus {
+    @apply ring-red-500;
+    /* Fallback */
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.5);
+}
+
+/* Botão Secundário */
 .btn-secondary {
-    @apply bg-gray-600 text-white hover:bg-gray-700;
+    @apply bg-gray-600 text-white;
+}
+
+.btn-secondary:hover {
+    @apply bg-gray-700;
+}
+
+.btn-secondary:focus {
+    @apply ring-gray-500;
 }
 
 /* Formulários */
@@ -158,13 +271,19 @@
     }
 }
 
-/* Melhorias nos botões */
-.btn {
-    @apply px-4 py-2 rounded font-medium transition-all duration-200 transform hover:scale-105 active:scale-95;
-}
-
+/* Estados dos botões */
 .btn:disabled {
     @apply opacity-50 cursor-not-allowed transform-none;
+}
+
+/* Ícones nos botões */
+.btn svg {
+    @apply w-4 h-4 mr-1 flex-shrink-0;
+    /* Fallback */
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    flex-shrink: 0;
 }
 
 /* Melhorias nos cards */

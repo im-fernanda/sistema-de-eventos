@@ -151,10 +151,20 @@ function renderEventos(eventos) {
             <div class="card-actions">
                 <button onclick="editItem('evento', ${
                   evento.id
-                })" class="btn btn-primary">Editar</button>
+                })" class="btn btn-primary">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    Editar
+                </button>
                 <button onclick="deleteItem('evento', ${
                   evento.id
-                })" class="btn btn-danger">Excluir</button>
+                })" class="btn btn-danger">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Excluir
+                </button>
             </div>
         </div>
     `
@@ -222,10 +232,20 @@ function renderIngressos(ingressos) {
         <div class="card-actions">
             <button onclick="editItem('ingresso', ${
               ingresso.id
-            })" class="btn btn-primary">Editar</button>
+            })" class="btn btn-primary">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                Editar
+            </button>
             <button onclick="deleteItem('ingresso', ${
               ingresso.id
-            })" class="btn btn-danger">Excluir</button>
+            })" class="btn btn-danger">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                Excluir
+            </button>
         </div>
     </div>
   `
@@ -295,10 +315,20 @@ function renderParticipantes(participantes) {
         <div class="card-actions">
             <button onclick="editItem('participante', ${
               participante.id
-            })" class="btn btn-primary">Editar</button>
+            })" class="btn btn-primary">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                Editar
+            </button>
             <button onclick="deleteItem('participante', ${
               participante.id
-            })" class="btn btn-danger">Excluir</button>
+            })" class="btn btn-danger">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                Excluir
+            </button>
         </div>
     </div>
   `
@@ -548,29 +578,29 @@ function getParticipanteModalContent(participante = null) {
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Telefone 
-          <span class="text-gray-400 text-xs">(opcional)</span>
+          <span class="text-red-500 text-xs">*</span>
         </label>
         <input type="tel" name="telefone" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" value="${
           participante?.telefone || ""
-        }">
+        }" required>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">
           CPF 
-          <span class="text-gray-400 text-xs">(opcional)</span>
+          <span class="text-red-500 text-xs">*</span>
         </label>
         <input type="text" name="cpf" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" value="${
           participante?.cpf || ""
-        }">
+        }" required>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Data de Nascimento 
-          <span class="text-gray-400 text-xs">(opcional)</span>
+          <span class="text-red-500 text-xs">*</span>
         </label>
         <input type="date" name="data_nascimento" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" value="${
           participante?.data_nascimento || ""
-        }">
+        }" required>
       </div>
       <div class="flex justify-end gap-2 pt-2">
         <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-500 text-white hover:bg-gray-700 transition">Cancelar</button>

@@ -42,5 +42,3 @@ export function renderIngressos(ingressos) {
     </div>
   `).join('');
 }
-
-// ...outras funções específicas de ingressos (formulário, modal, etc)

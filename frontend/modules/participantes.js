@@ -47,9 +47,9 @@ export function renderParticipantes(participantes) {
                 <p class="mb-2"><strong>CPF:</strong> ${participante.cpf || "N/A"}</p>
                 <p class="mb-2"><strong>Telefone:</strong> ${participante.telefone || "N/A"}</p>
             </div>
-            <div class="card-actions">
-                <button onclick="editParticipante(${participante.id})" class="btn-edit">Editar</button>
-                <button onclick="deleteParticipante(${participante.id})" class="btn-delete">Excluir</button>
+            <div class="card-actions flex gap-2 mt-4">
+                <button onclick="editParticipante(${participante.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-yellow-400 text-white hover:bg-yellow-500 transition-all duration-200 transform hover:scale-105">Editar</button>
+                <button onclick="deleteParticipante(${participante.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-red-500 text-white hover:bg-red-600 transition-all duration-200 transform hover:scale-105">Excluir</button>
             </div>
         </div>
     `

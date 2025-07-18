@@ -1,6 +1,6 @@
 // Responsável pela lógica e UI dos eventos
 
-import { api, formatDate, formatDateTime, formatCurrency, showLoading, hideLoading, showMessage } from './api.js';
+import { api, formatDateTime, showLoading, hideLoading, showMessage } from './api.js';
 
 // Funções de renderização, manipulação e formulários de eventos
 export async function loadEventos() {
@@ -38,11 +38,10 @@ export function renderEventos(eventos) {
         <p class="text-sm text-gray-600">${evento.descricao}</p>
       </div>
       <div class="card-actions">
-        <button onclick="editItem('evento', ${evento.id})" class="btn btn-primary">Editar</button>
-        <button onclick="deleteItem('evento', ${evento.id})" class="btn btn-danger">Excluir</button>
+        <button onclick="editItem('evento', ${evento.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-yellow-400 text-white hover:bg-yellow-500 transition-all duration-200 transform hover:scale-105">Editar</button>
+        <button onclick="deleteItem('evento', ${evento.id})" class="px-4 py-2 rounded-lg font-semibold shadow bg-red-500 text-white hover:bg-red-600 transition-all duration-200 transform hover:scale-105">Excluir</button>
       </div>
     </div>
   `).join('');
 }
 
-// ...outras funções específicas de eventos (formulário, modal, etc)

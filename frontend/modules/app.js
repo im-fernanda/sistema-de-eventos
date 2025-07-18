@@ -1,13 +1,9 @@
 // app.js
-import { api } from './api.js';
 import { loadEventos, renderEventos } from './eventos.js';
 import { loadIngressos, renderIngressos } from './ingressos.js';
 import { loadParticipantes, renderParticipantes } from './participantes.js';
 import { showToast, showMessage, showLoading, hideLoading } from './utils.js';
 
-// Variables globais
-let currentSection = "home";
-let editingItem = null;
 
 // Inicialização da aplicação
 document.addEventListener("DOMContentLoaded", function () {

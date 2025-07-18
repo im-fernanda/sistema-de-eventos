@@ -13,7 +13,7 @@ db.createUser({
   ],
 });
 
-// Criar algumas coleções iniciais (opcional)
+// Coleções iniciais 
 db.createCollection("eventos");
 db.createCollection("participantes");
 db.createCollection("ingressos");

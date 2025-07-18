@@ -1,4 +1,4 @@
-/// Responsável pela lógica e UI dos participantes
+// Responsável pela lógica e UI dos participantes
 
 import { api, showLoading, hideLoading, showMessage } from './api.js';
 
@@ -41,5 +41,3 @@ export function renderParticipantes(participantes) {
     </div>
   `).join('');
 }
-
-// ...outras funções específicas de participantes (formulário, modal, etc)
