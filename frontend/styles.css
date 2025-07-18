@@ -1,3 +1,19 @@
+/* Toast de feedback */
+.toast-success {
+    background-color: #16a34a;
+}
+.toast-error {
+    background-color: #dc2626;
+}
+.toast-info {
+    background-color: #2563eb;
+}
+
+/* Loader customizado */
+#loader .animate-spin {
+    border-top-color: #2563eb;
+    border-width: 4px;
+}
 /* Estilos customizados */
 .nav-link {
     @apply px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
@@ -108,11 +124,79 @@
 }
 
 .form-input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200;
 }
 
 .form-textarea {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical transition-colors duration-200;
+}
+
+/* Validação de formulários */
+.form-input:invalid,
+.form-textarea:invalid {
+    @apply border-red-300 focus:ring-red-500 focus:border-red-500;
+}
+
+.form-input:valid,
+.form-textarea:valid {
+    @apply border-green-300 focus:ring-green-500 focus:border-green-500;
+}
+
+/* Animações suaves */
+.modal-content {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Melhorias nos botões */
+.btn {
+    @apply px-4 py-2 rounded font-medium transition-all duration-200 transform hover:scale-105 active:scale-95;
+}
+
+.btn:disabled {
+    @apply opacity-50 cursor-not-allowed transform-none;
+}
+
+/* Melhorias nos cards */
+.card {
+    @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1;
+}
+
+/* Contador de caracteres */
+.char-counter {
+    @apply text-xs text-gray-500 mt-1 transition-colors duration-200;
+}
+
+.char-counter.warning {
+    @apply text-yellow-600;
+}
+
+.char-counter.danger {
+    @apply text-red-600;
+}
+
+/* Validação de campos */
+.field-error {
+    @apply border-red-500 focus:ring-red-500;
+}
+
+/* Cores de validação para textarea */
+textarea.border-yellow-500 {
+    @apply border-yellow-500 focus:ring-yellow-500;
+}
+
+textarea.border-green-500 {
+    @apply border-green-500 focus:ring-green-500;
 }
 
 /* Loading */

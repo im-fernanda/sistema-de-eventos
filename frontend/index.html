@@ -48,18 +48,17 @@
           </p>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
+              <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded-full mb-2">Novo!</span>
               <h3 class="text-xl font-semibold mb-2">Eventos</h3>
-              <p class="text-gray-600">
-                Crie e gerencie eventos com facilidade
-              </p>
+              <p class="text-gray-600">Crie, edite e visualize eventos facilmente.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
               <h3 class="text-xl font-semibold mb-2">Ingressos</h3>
-              <p class="text-gray-600">Controle de vendas e disponibilidade</p>
+              <p class="text-gray-600">Gerencie vendas e controle de ingressos.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
               <h3 class="text-xl font-semibold mb-2">Participantes</h3>
-              <p class="text-gray-600">Gerencie a lista de participantes</p>
+              <p class="text-gray-600">Acompanhe os participantes dos eventos.</p>
             </div>
           </div>
         </div>
@@ -124,13 +123,22 @@
     </main>
 
     <!-- Modais -->
-    <div id="modal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative animate-fade-in">
+        <button aria-label="Fechar" onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-3xl font-bold transition-colors">&times;</button>
         <div id="modal-body">
           <!-- Conteúdo do modal será carregado aqui -->
         </div>
       </div>
+    </div>
+
+
+    <!-- Toast de feedback -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden px-4 py-3 rounded shadow-lg text-white text-lg font-semibold"></div>
+
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-40 hidden">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600 border-opacity-50"></div>
     </div>
 
     <script src="api.js"></script>

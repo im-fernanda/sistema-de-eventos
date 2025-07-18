@@ -26,12 +26,21 @@ class ApiService {
     try {
       const response = await fetch(url, config);
 
+      if (options.method === "DELETE" && (response.status === 204 || response.headers.get("content-length") === "0")) {
+        return true;
+      }
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error("DEBUG: Resposta de erro:", errorText);
         throw new Error(
           `HTTP error! status: ${response.status} - ${errorText}`
         );
+      }
+
+      // Se não houver conteúdo, retorna true
+      if (response.status === 204 || response.headers.get("content-length") === "0") {
+        return true;
       }
 
       return await response.json();
