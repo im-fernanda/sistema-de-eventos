@@ -291,13 +291,6 @@ O backend segue a arquitetura MDC (Models, Serializers, Services, Views, URLs):
 - **Views**: Lógica de negócio e endpoints da API
 - **URLs**: Roteamento das URLs
 
-### Padrões de Código
-
-- **Clean Code**: Código limpo e legível
-- **SOLID**: Princípios de design orientado a objetos
-- **DRY**: Don't Repeat Yourself
-- **YAGNI**: You Ain't Gonna Need It
-- **Segurança**: Implementação de práticas seguras
 
 ### Hot Reload
 
@@ -349,19 +342,3 @@ tail -f backend/logs/django.log
 # MongoDB logs
 docker logs sistema_eventos_mongodb
 ```
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT.
-
-## 🤝 Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📞 Suporte
-
-Para suporte, abra uma issue no repositório do projeto. 
