@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Eventos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <h1 class="text-2xl font-bold">Sistema de Eventos</h1>
+          <div class="space-x-4">
+            <button onclick="showSection('home')" class="nav-link active">
+              Home
+            </button>
+            <button onclick="showSection('eventos')" class="nav-link">
+              Eventos
+            </button>
+            <button onclick="showSection('ingressos')" class="nav-link">
+              Ingressos
+            </button>
+            <button onclick="showSection('participantes')" class="nav-link">
+              Participantes
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Seção Home -->
+      <section id="home" class="section active">
+        <div class="text-center">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Bem-vindo ao Sistema de Eventos
+          </h2>
+          <p class="text-xl text-gray-600 mb-8">
+            Gerencie seus eventos, ingressos e participantes de forma simples e
+            eficiente.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2">Eventos</h3>
+              <p class="text-gray-600">
+                Crie e gerencie eventos com facilidade
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2">Ingressos</h3>
+              <p class="text-gray-600">Controle de vendas e disponibilidade</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2">Participantes</h3>
+              <p class="text-gray-600">Gerencie a lista de participantes</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção Eventos -->
+      <section id="eventos" class="section">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold text-gray-800">Eventos</h2>
+          <button
+            onclick="showModal('evento')"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Novo Evento
+          </button>
+        </div>
+        <div
+          id="eventos-list"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Eventos serão carregados aqui -->
+        </div>
+      </section>
+
+      <!-- Seção Ingressos -->
+      <section id="ingressos" class="section">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold text-gray-800">Ingressos</h2>
+          <button
+            onclick="showModal('ingresso')"
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Novo Ingresso
+          </button>
+        </div>
+        <div
+          id="ingressos-list"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Ingressos serão carregados aqui -->
+        </div>
+      </section>
+
+      <!-- Seção Participantes -->
+      <section id="participantes" class="section">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold text-gray-800">Participantes</h2>
+          <button
+            onclick="showModal('participante')"
+            class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          >
+            Novo Participante
+          </button>
+        </div>
+        <div
+          id="participantes-list"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Participantes serão carregados aqui -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Modais -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-body">
+          <!-- Conteúdo do modal será carregado aqui -->
+        </div>
+      </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
