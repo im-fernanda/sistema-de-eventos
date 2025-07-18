@@ -1,0 +1,1 @@
+# Fixtures para dados iniciais

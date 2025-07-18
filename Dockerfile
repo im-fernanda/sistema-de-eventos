@@ -39,10 +39,11 @@ WORKDIR /app
 
 # Copiar script de inicialização
 COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
+RUN chmod +x /app/start.sh && \
+    sed -i 's/\r$//' /app/start.sh
 
 # Expor portas
 EXPOSE 8000 8080
 
 # Comando para executar ambos os serviços
-CMD ["/app/start.sh"]
+CMD ["bash", "/app/start.sh"]

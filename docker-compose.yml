@@ -41,7 +41,7 @@ services:
       - ./logs:/app/backend/logs
     networks:
       - app-network
-    command: ["/app/start.sh"]
+    command: ["bash", "/app/start.sh"]
 
 volumes:
   mongodb_data:
