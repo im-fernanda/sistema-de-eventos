@@ -1,134 +1,130 @@
-from django.core.management.base import BaseCommand
-from apps.eventos.models import Evento, Participante, Ingresso
-from apps.eventos.fixtures.config import INITIAL_DATA_CONFIG
-from datetime import datetime, timedelta
+"""Popula o banco com dados de exemplo usando o ORM."""
+
+from __future__ import annotations
+
 import random
+from datetime import datetime, timedelta, timezone
+from decimal import Decimal
+from typing import Any
+
+from django.core.management.base import BaseCommand
+
+from apps.eventos.fixtures.config import INITIAL_DATA_CONFIG
+from apps.eventos.models import Evento, Ingresso, Participante
 
 
 class Command(BaseCommand):
-    help = "Carrega dados iniciais para o sistema de eventos"
+    help = "Carrega dados iniciais no banco para o sistema de eventos."
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: Any) -> None:
         parser.add_argument(
             "--force",
             action="store_true",
-            help="Força o recarregamento dos dados mesmo se já existirem",
+            help="Apaga os dados existentes antes de recarregar.",
         )
 
-    def handle(self, *args, **options):
-        force = options["force"]
+    def handle(self, *args: Any, **options: Any) -> None:
+        force: bool = options["force"]
 
-        self.stdout.write(self.style.SUCCESS("🚀 Iniciando carregamento de dados..."))
+        if force:
+            self.stdout.write(self.style.WARNING("Limpando dados existentes..."))
+            Ingresso.objects.all().delete()
+            Participante.objects.all().delete()
+            Evento.objects.all().delete()
 
-        # Carregar eventos
-        if force or Evento.objects.count() == 0:
-            self.stdout.write("📅 Criando eventos...")
-            self.create_eventos()
-        else:
-            self.stdout.write(self.style.WARNING("✅ Eventos já existem"))
+        eventos = self._seed_eventos(force=force)
+        participantes = self._seed_participantes(force=force)
+        self._seed_ingressos(eventos, participantes, force=force)
 
-        # Carregar participantes
-        if force or Participante.objects.count() == 0:
-            self.stdout.write("👥 Criando participantes...")
-            self.create_participantes()
-        else:
-            self.stdout.write(self.style.WARNING("✅ Participantes já existem"))
+        self.stdout.write(self.style.SUCCESS("Dados iniciais carregados."))
 
-        # Carregar ingressos
-        if force or Ingresso.objects.count() == 0:
-            self.stdout.write("🎫 Criando ingressos...")
-            self.create_ingressos()
-        else:
-            self.stdout.write(self.style.WARNING("✅ Ingressos já existem"))
+    # ------------------------------------------------------------------
+    def _seed_eventos(self, *, force: bool) -> list[Evento]:
+        if not force and Evento.objects.exists():
+            self.stdout.write("Eventos já existem, pulando.")
+            return list(Evento.objects.all())
 
-        self.stdout.write(self.style.SUCCESS("🎉 Dados carregados com sucesso!"))
-
-    def create_eventos(self):
-        """Cria eventos baseados na configuração"""
-        from apps.eventos.models.evento import Evento
-
-        templates = INITIAL_DATA_CONFIG["eventos"]["templates"]
-
-        for i, template in enumerate(templates):
-            # Gerar data futura aleatória
-            data_futura = datetime.now() + timedelta(days=random.randint(30, 180))
-
+        criados: list[Evento] = []
+        for template in INITIAL_DATA_CONFIG["eventos"]["templates"]:
+            data_futura = datetime.now(timezone.utc) + timedelta(
+                days=random.randint(30, 180)
+            )
             evento = Evento.objects.create(
                 nome=template["nome"],
                 data=data_futura,
                 local=template["local"],
                 capacidade=template["capacidade"],
                 descricao=template["descricao"],
-                preco_ingresso=template["preco_ingresso"],
-                status="ATIVO",
+                preco_ingresso=Decimal(str(template["preco_ingresso"])),
+                status=Evento.Status.ATIVO,
             )
-            self.stdout.write(f"  ✅ Criado: {evento.nome}")
+            criados.append(evento)
+            self.stdout.write(f"  evento: {evento.nome}")
+        return criados
 
-    def create_participantes(self):
-        """Cria participantes baseados na configuração"""
-        from apps.eventos.models.participante import Participante
+    def _seed_participantes(self, *, force: bool) -> list[Participante]:
+        if not force and Participante.objects.exists():
+            self.stdout.write("Participantes já existem, pulando.")
+            return list(Participante.objects.all())
 
-        nomes = INITIAL_DATA_CONFIG["participantes"]["nomes"]
-
-        for nome in nomes:
-            # Gerar dados únicos
+        criados: list[Participante] = []
+        for nome in INITIAL_DATA_CONFIG["participantes"]["nomes"]:
             email = f"{nome.lower().replace(' ', '.')}@exemplo.com"
             telefone = (
                 f"(11) 9{random.randint(1000, 9999)}-{random.randint(1000, 9999)}"
             )
-            cpf = f"{random.randint(100, 999)}.{random.randint(100, 999)}.{random.randint(100, 999)}-{random.randint(10, 99)}"
-
-            # Gerar data de nascimento aleatória (18-65 anos)
-            data_nascimento = datetime.now() - timedelta(
-                days=random.randint(6570, 23725)
+            cpf = (
+                f"{random.randint(100, 999)}.{random.randint(100, 999)}."
+                f"{random.randint(100, 999)}-{random.randint(10, 99)}"
             )
+            nascimento = (
+                datetime.now(timezone.utc) - timedelta(days=random.randint(6570, 23725))
+            ).date()
 
             participante = Participante.objects.create(
                 nome=nome,
                 email=email,
                 telefone=telefone,
-                data_nascimento=data_nascimento.date(),
+                data_nascimento=nascimento,
                 cpf=cpf,
             )
-            self.stdout.write(f"  ✅ Criado: {participante.nome}")
+            criados.append(participante)
+            self.stdout.write(f"  participante: {participante.nome}")
+        return criados
 
-    def create_ingressos(self):
-        """Cria ingressos baseados na configuração"""
-        from apps.eventos.models.ingresso import Ingresso
-
-        eventos = list(Evento.objects.all())
-        participantes = list(Participante.objects.all())
-        tipos = INITIAL_DATA_CONFIG["ingressos"]["tipos"]
-        status_list = INITIAL_DATA_CONFIG["ingressos"]["status"]
-        descontos = INITIAL_DATA_CONFIG["ingressos"]["descontos"]
-
+    def _seed_ingressos(
+        self,
+        eventos: list[Evento],
+        participantes: list[Participante],
+        *,
+        force: bool,
+    ) -> None:
+        if not force and Ingresso.objects.exists():
+            self.stdout.write("Ingressos já existem, pulando.")
+            return
         if not eventos or not participantes:
-            self.stdout.write(
-                self.style.ERROR(
-                    "❌ É necessário ter eventos e participantes antes de criar ingressos"
-                )
-            )
+            self.stdout.write(self.style.ERROR("Sem eventos/participantes; abortando."))
             return
 
-        count = INITIAL_DATA_CONFIG["ingressos"]["count"]
+        cfg = INITIAL_DATA_CONFIG["ingressos"]
+        tipos = cfg["tipos"]
+        status_list = cfg["status"]
+        descontos = cfg["descontos"]
 
-        for i in range(count):
+        for _ in range(cfg["count"]):
             evento = random.choice(eventos)
             participante = random.choice(participantes)
             tipo = random.choice(tipos)
-            status = random.choice(status_list)
-
-            # Calcular preço baseado no tipo
-            preco_base = float(str(evento.preco_ingresso))
-            preco_final = preco_base * descontos[tipo]
+            status_choice = random.choice(status_list)
+            preco = (
+                Decimal(str(evento.preco_ingresso)) * Decimal(str(descontos[tipo]))
+            ).quantize(Decimal("0.01"))
 
             ingresso = Ingresso.objects.create(
                 evento=evento,
                 participante=participante,
                 tipo=tipo,
-                preco=preco_final,
-                status=status,
+                preco=preco,
+                status=status_choice,
             )
-            self.stdout.write(
-                f"  ✅ Criado: {ingresso.tipo} - {evento.nome} - {participante.nome}"
-            )
+            self.stdout.write(f"  ingresso: {ingresso.tipo} ({evento.nome})")

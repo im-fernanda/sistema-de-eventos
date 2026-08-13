@@ -1,19 +1,11 @@
 from rest_framework import serializers
-from ..models.ingresso import Ingresso
+
+from ..models import Ingresso
 
 
 class IngressoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ingresso
-        fields = "__all__"
-        read_only_fields = ("id", "created_at", "updated_at")
-
-
-class IngressoListSerializer(serializers.ModelSerializer):
     evento_nome = serializers.CharField(source="evento.nome", read_only=True)
-    participante_nome = serializers.CharField(
-        source="participante.nome", read_only=True
-    )
+    participante_nome = serializers.CharField(source="participante.nome", read_only=True)
 
     class Meta:
         model = Ingresso
@@ -26,4 +18,7 @@ class IngressoListSerializer(serializers.ModelSerializer):
             "tipo",
             "preco",
             "status",
+            "created_at",
+            "updated_at",
         ]
+        read_only_fields = ("id", "created_at", "updated_at")

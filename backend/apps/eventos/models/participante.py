@@ -2,11 +2,11 @@ from django.db import models
 
 
 class Participante(models.Model):
-    nome = models.CharField(max_length=200, verbose_name="Nome completo")
-    email = models.EmailField(unique=True, verbose_name="Email")
-    telefone = models.CharField(max_length=20, verbose_name="Telefone")
-    data_nascimento = models.DateField(verbose_name="Data de nascimento")
-    cpf = models.CharField(max_length=14, unique=True, verbose_name="CPF")
+    nome = models.CharField("Nome completo", max_length=200)
+    email = models.EmailField("Email", unique=True)
+    telefone = models.CharField("Telefone", max_length=20)
+    data_nascimento = models.DateField("Data de nascimento")
+    cpf = models.CharField("CPF", max_length=14, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -15,5 +15,5 @@ class Participante(models.Model):
         verbose_name_plural = "Participantes"
         ordering = ["nome"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.nome

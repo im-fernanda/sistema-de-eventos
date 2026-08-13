@@ -1,3 +1,5 @@
 from .evento import Evento
+from .ingresso import Ingresso
 from .participante import Participante
-from .ingresso import Ingresso 
+
+__all__ = ["Evento", "Ingresso", "Participante"]

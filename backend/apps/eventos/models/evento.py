@@ -1,27 +1,31 @@
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 
 
 class Evento(models.Model):
-    nome = models.CharField(max_length=200, verbose_name="Nome do evento")
-    data = models.DateTimeField(verbose_name="Data e hora do evento")
-    local = models.CharField(max_length=200, verbose_name="Local do evento")
-    capacidade = models.IntegerField(
-        validators=[MinValueValidator(1)], verbose_name="Capacidade máxima"
+    class Status(models.TextChoices):
+        ATIVO = "ATIVO", "Ativo"
+        CANCELADO = "CANCELADO", "Cancelado"
+        FINALIZADO = "FINALIZADO", "Finalizado"
+
+    nome = models.CharField("Nome do evento", max_length=200)
+    data = models.DateTimeField("Data e hora do evento")
+    local = models.CharField("Local do evento", max_length=200)
+    capacidade = models.PositiveIntegerField(
+        "Capacidade máxima",
+        validators=[MinValueValidator(1)],
     )
-    descricao = models.TextField(verbose_name="Descrição do evento")
+    descricao = models.TextField("Descrição do evento")
     preco_ingresso = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="Preço do ingresso"
+        "Preço do ingresso",
+        max_digits=10,
+        decimal_places=2,
     )
     status = models.CharField(
+        "Status",
         max_length=20,
-        choices=[
-            ("ATIVO", "Ativo"),
-            ("CANCELADO", "Cancelado"),
-            ("FINALIZADO", "Finalizado"),
-        ],
-        default="ATIVO",
-        verbose_name="Status do evento",
+        choices=Status.choices,
+        default=Status.ATIVO,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -29,7 +33,7 @@ class Evento(models.Model):
     class Meta:
         verbose_name = "Evento"
         verbose_name_plural = "Eventos"
-        ordering = ["data"]
+        ordering = ["-data"]
 
-    def __str__(self):
-        return f"{self.nome} - {self.data.strftime('%d/%m/%Y %H:%M')}"
+    def __str__(self) -> str:
+        return f"{self.nome} — {self.data:%d/%m/%Y %H:%M}"

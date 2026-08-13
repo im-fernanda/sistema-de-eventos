@@ -1,3 +1,5 @@
-from .evento import EventoSerializer, EventoListSerializer
-from .participante import ParticipanteSerializer, ParticipanteListSerializer
-from .ingresso import IngressoSerializer, IngressoListSerializer
+from .evento import EventoSerializer
+from .ingresso import IngressoSerializer
+from .participante import ParticipanteSerializer
+
+__all__ = ["EventoSerializer", "IngressoSerializer", "ParticipanteSerializer"]
