@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # local
     "apps.eventos",
-    # "apps.authentication",  # habilitado na Fase 2
+    "apps.authentication",
 ]
 
 MIDDLEWARE = [
@@ -181,6 +181,18 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
+    "SECURITY": [{"jwtAuth": []}],
+    "APPEND_COMPONENTS": {
+        "securitySchemes": {
+            "jwtAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Envie o header `Authorization: Bearer <access_token>`.",
+            }
+        }
+    },
 }
 
 
