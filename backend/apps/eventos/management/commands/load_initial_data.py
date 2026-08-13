@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import random
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from typing import Any
 
@@ -46,9 +46,7 @@ class Command(BaseCommand):
 
         criados: list[Evento] = []
         for template in INITIAL_DATA_CONFIG["eventos"]["templates"]:
-            data_futura = datetime.now(timezone.utc) + timedelta(
-                days=random.randint(30, 180)
-            )
+            data_futura = datetime.now(UTC) + timedelta(days=random.randint(30, 180))
             evento = Evento.objects.create(
                 nome=template["nome"],
                 data=data_futura,
@@ -70,16 +68,12 @@ class Command(BaseCommand):
         criados: list[Participante] = []
         for nome in INITIAL_DATA_CONFIG["participantes"]["nomes"]:
             email = f"{nome.lower().replace(' ', '.')}@exemplo.com"
-            telefone = (
-                f"(11) 9{random.randint(1000, 9999)}-{random.randint(1000, 9999)}"
-            )
+            telefone = f"(11) 9{random.randint(1000, 9999)}-{random.randint(1000, 9999)}"
             cpf = (
                 f"{random.randint(100, 999)}.{random.randint(100, 999)}."
                 f"{random.randint(100, 999)}-{random.randint(10, 99)}"
             )
-            nascimento = (
-                datetime.now(timezone.utc) - timedelta(days=random.randint(6570, 23725))
-            ).date()
+            nascimento = (datetime.now(UTC) - timedelta(days=random.randint(6570, 23725))).date()
 
             participante = Participante.objects.create(
                 nome=nome,
@@ -116,9 +110,9 @@ class Command(BaseCommand):
             participante = random.choice(participantes)
             tipo = random.choice(tipos)
             status_choice = random.choice(status_list)
-            preco = (
-                Decimal(str(evento.preco_ingresso)) * Decimal(str(descontos[tipo]))
-            ).quantize(Decimal("0.01"))
+            preco = (Decimal(str(evento.preco_ingresso)) * Decimal(str(descontos[tipo]))).quantize(
+                Decimal("0.01")
+            )
 
             ingresso = Ingresso.objects.create(
                 evento=evento,

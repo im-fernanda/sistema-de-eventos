@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+# Definido antes do Django ser importado pelo pytest-django.
+env = [
+    "TESTING=True",
+    "SECRET_KEY=test-secret-key",
+    "ALLOWED_HOSTS=testserver,localhost,127.0.0.1",
+]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--reuse-db",
+    "--cov=apps",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+# ---------------------------------------------------------------------------
+# coverage
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+branch = true
+source = ["apps"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "apps/eventos/fixtures/*",
+    "apps/eventos/management/*",
+    "apps/*/apps.py",
+    "apps/*/admin.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+# ---------------------------------------------------------------------------
+# black
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | migrations
+  | build
+  | dist
+)/
+'''
+
+# ---------------------------------------------------------------------------
+# ruff
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["migrations", "staticfiles", "media"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP"]
+ignore = [
+    "E501",  # deixamos o black cuidar do tamanho da linha
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["N802", "N806"]
+"conftest.py" = ["N806", "E402"]
+"apps/*/migrations/*" = ["E", "F", "I", "N", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "config"]
+
+# ---------------------------------------------------------------------------
+# mypy
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+plugins = ["mypy_django_plugin.main"]
+ignore_missing_imports = true
+check_untyped_defs = false
+warn_unused_ignores = true
+warn_redundant_casts = true
+exclude = "migrations/"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
