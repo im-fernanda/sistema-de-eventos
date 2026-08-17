@@ -212,7 +212,7 @@ CORS_ALLOW_CREDENTIALS = True
 # ---------------------------------------------------------------------------
 # Segurança em produção
 # ---------------------------------------------------------------------------
-if not DEBUG and not TESTING:
+if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_SECONDS = 31_536_000
