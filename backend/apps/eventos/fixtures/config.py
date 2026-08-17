@@ -69,4 +69,3 @@ INITIAL_DATA_CONFIG = {
         },
     },
 }
-

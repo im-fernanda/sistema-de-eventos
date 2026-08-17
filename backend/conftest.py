@@ -11,8 +11,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 os.environ.setdefault("ALLOWED_HOSTS", "testserver,localhost,127.0.0.1")
 os.environ.setdefault("SECRET_KEY", "test-secret-key")
 
-from datetime import datetime, timedelta, timezone
-UTC = timezone.utc  # noqa: E402
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal  # noqa: E402
 
 import pytest  # noqa: E402

@@ -42,7 +42,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Já existe um usuário com este username.")
         return value
 
-    def create(self, validated_data: dict) -> "User":
+    def create(self, validated_data: dict) -> User:
         password = validated_data.pop("password")
         user = User(**validated_data)
         user.set_password(password)
