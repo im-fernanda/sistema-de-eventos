@@ -1,0 +1,72 @@
+name: sistema-eventos
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sistema-eventos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - sistema-eventos-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: sistema-eventos-backend:latest
+    container_name: sistema-eventos-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks:
+      - sistema-eventos-net
+
+  frontend:
+    profiles: ["frontend"]
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: sistema-eventos-frontend:latest
+    container_name: sistema-eventos-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    networks:
+      - sistema-eventos-net
+
+networks:
+  sistema-eventos-net:
+    name: sistema-eventos-net
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: sistema-eventos-postgres-data

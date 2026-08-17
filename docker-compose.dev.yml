@@ -1,0 +1,37 @@
+# Override para desenvolvimento local com hot-reload.
+# Uso: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+name: sistema-eventos
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      DEBUG: "True"
+      COLLECT_STATIC: "false"
+    volumes:
+      - ./backend:/app
+    command:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000
+
+  frontend:
+    profiles: ["frontend"]
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: builder
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    ports:
+      - "5173:5173"
